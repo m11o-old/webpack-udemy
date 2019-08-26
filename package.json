@@ -16,5 +16,10 @@
   "bugs": {
     "url": "https://github.com/m11o/webpack-udemy/issues"
   },
-  "homepage": "https://github.com/m11o/webpack-udemy#readme"
+  "homepage": "https://github.com/m11o/webpack-udemy#readme",
+  "devDependencies": {
+    "live-server": "^1.2.1",
+    "webpack": "^4.29.0",
+    "webpack-cli": "^3.2.1"
+  }
 }
