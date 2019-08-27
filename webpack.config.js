@@ -6,5 +6,8 @@ module.exports = {
   output: {
     path: output_path,
     filename: 'main.js'
+  },
+  devServer: {
+    contentBase: output_path
   }
 };
