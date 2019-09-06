@@ -1,8 +1,9 @@
-const path                 = require('path');
-const output_path          = path.resolve(__dirname, 'dist');
-const HtmlWebpackPlugin    = require('html-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const UglifyJsPlugin       = require('uglifyjs-webpack-plugin');
+const path                    = require('path');
+const output_path             = path.resolve(__dirname, 'dist');
+const HtmlWebpackPlugin       = require('html-webpack-plugin');
+const MiniCssExtractPlugin    = require('mini-css-extract-plugin');
+const UglifyJsPlugin          = require('uglifyjs-webpack-plugin');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 module.exports = {
   entry: './src/index.js',
@@ -59,7 +60,8 @@ module.exports = {
             drop_console: true
           }
         }
-      })
+      }),
+      new OptimizeCSSAssetsPlugin({})
     ],
   }
 };
