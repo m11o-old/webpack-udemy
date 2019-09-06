@@ -1,15 +1,17 @@
-const path                    = require('path');
-const output_path             = path.resolve(__dirname, 'dist');
-const HtmlWebpackPlugin       = require('html-webpack-plugin');
-const MiniCssExtractPlugin    = require('mini-css-extract-plugin');
-const UglifyJsPlugin          = require('uglifyjs-webpack-plugin');
+const path = require('path');
+
+const outputPath = path.resolve(__dirname, 'dist');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const EslintFormatter = require('eslint/lib/cli-engine/formatters/stylish');
 
 module.exports = {
   entry: './src/index.js',
   output: {
-    path: output_path,
-    filename: 'main.js'
+    path: outputPath,
+    filename: 'main.js',
   },
   module: {
     rules: [
@@ -18,51 +20,60 @@ module.exports = {
         use: [
           MiniCssExtractPlugin.loader,
           'css-loader',
-          'sass-loader'
-        ]
+          'sass-loader',
+        ],
       },
       {
         test: /\.(jpe?g|png|gif|svg|ico)$/i,
         loader: 'url-loader',
         options: {
           limit: 2048,
-          name: './images/[name].[ext]'
-        }
+          name: './images/[name].[ext]',
+        },
       },
       {
         test: /\.jsx?$/,
         exclude: /node_modules/,
-        loader: "babel-loader"
+        loader: 'babel-loader',
       },
       {
         test: /\.html$/,
-        loader: 'html-loader'
-      }
-    ]
+        loader: 'html-loader',
+      },
+      {
+        enforce: 'pre',
+        test: /.jsx?$/,
+        exclude: /node_modules/,
+        loader: 'eslint-loader',
+        options: {
+          formatter: EslintFormatter,
+        },
+      },
+    ],
   },
   devServer: {
-    contentBase: output_path
+    contentBase: outputPath,
   },
   plugins: [
     new HtmlWebpackPlugin({
       template: './src/index.html',
-      filename: './index.html'
+      filename: './index.html',
     }),
     new MiniCssExtractPlugin({
-      filename: '[name].[hash].css'
-    })
+      filename: '[name].[hash].css',
+    }),
   ],
   optimization: {
     minimizer: [
       new UglifyJsPlugin({
         uglifyOptions: {
           compress: {
-            drop_console: true
-          }
-        }
+            drop_console: true,
+          },
+        },
       }),
-      new OptimizeCSSAssetsPlugin({})
+      new OptimizeCSSAssetsPlugin({}),
     ],
   },
-  devtool: 'eval-source-map'
+  devtool: 'eval-source-map',
 };
